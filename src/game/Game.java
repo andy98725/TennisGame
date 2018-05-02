@@ -1,13 +1,14 @@
 package game;
 
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+
+import main.Application;
 
 public class Game {
 	public static Bracket leftBracket, rightBracket;
 	public static Ball ball;
 	public static GUI display;
-	public static int bounces;
+	private static int bounces;
 	public static int score[];
 	public Game() {
 		// Initiate game
@@ -32,8 +33,6 @@ public class Game {
 	}
 
 	public static void draw(Graphics2D g) {
-		// Anti aliasing
-		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		// Draw brackets
 		leftBracket.draw(g);
 		rightBracket.draw(g);
@@ -69,5 +68,13 @@ public class Game {
 		bounces = 0;
 		// Update bumpers
 		updateBumpers();
+	}
+	public static void incBounces() {
+		bounces++;
+		if(bounces > Application.bestRally)
+			Application.bestRally = bounces;
+	}
+	public static int getBounces() {
+		return bounces;
 	}
 }

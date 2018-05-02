@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -16,6 +17,8 @@ public class Application extends JPanel implements Runnable {
 	private static final long serialVersionUID = 1L;
 	// Application instance in use
 	public static Application app;
+	// Best rally done
+	public static int bestRally = 0;
 	// Display size
 	public static final int wid = 800, hei = 400;
 	// Thread used
@@ -87,9 +90,9 @@ public class Application extends JPanel implements Runnable {
 		app.add(menu);
 	}
 	// Start game
-	public static void startGame(Game g) {
+	public static void startGame() {
 		menu = null;
-		game = g;
+		game = new Game();
 		app.removeAll();
 	}
 	// Render
@@ -97,6 +100,8 @@ public class Application extends JPanel implements Runnable {
 	protected void paintComponent(Graphics graphics) {
 		// Graphics2D for increased access to functions
 		Graphics2D g = (Graphics2D) graphics;
+		// Anti aliasing
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		// Draw background
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, wid, hei);
@@ -109,12 +114,11 @@ public class Application extends JPanel implements Runnable {
 	// Main loop
 	@Override
 	public void run() {
-		// Start
-//		openMenu();
-		startGame(new Game());
 		// Declare timing variables
 		long prevFrame = System.nanoTime(), sleep = 0;
 		double deltaH = 0;
+		// Start
+		openMenu();
 		// Start loop
 		while (true) {
 			// Nanoseconds to seconds

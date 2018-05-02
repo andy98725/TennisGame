@@ -2,10 +2,10 @@ package game;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 
 import main.Application;
+import util.TextFunctions;
 
 public class GUI {
 	private int topY, botY;
@@ -13,6 +13,9 @@ public class GUI {
 	private boolean drawRight, drawLeft;
 	// The helper text
 	private String textRight, textLeft;
+	// Rally font
+	Font rallyfont = new Font("Calibri", Font.BOLD, 24);
+	Font scorefont = new Font("CAlibri", Font.PLAIN, 18);
 	// Indicator colors
 	private Color[] indicatorColor;
 	private double[] indicatorTimer;
@@ -31,7 +34,6 @@ public class GUI {
 	public void draw(Graphics2D g) {
 		// Settings
 		g.setColor(Color.WHITE);
-		g.setFont(new Font("Calibri", Font.BOLD, 18));
 		// Draw texts sometimes
 		drawHelperTexts(g);
 		// Draw current scores
@@ -64,20 +66,23 @@ public class GUI {
 		}
 	}
 	private void drawHelperTexts(Graphics2D g) {
+		g.setFont(rallyfont);
 		if(drawLeft) {
-			drawCenteredText(g, textLeft, Application.wid/4, Application.hei/2);
+			TextFunctions.drawCenteredText(g, textLeft, Application.wid/4, Application.hei/2);
 		}
 		if(drawRight) {
-			drawCenteredText(g, textRight, Application.wid*3/4, Application.hei/2);
+			TextFunctions.drawCenteredText(g, textRight, Application.wid*3/4, Application.hei/2);
 		}
 		
 	}
 	private void drawScores(Graphics2D g) {
 		// Draw current bounce count
-		drawCenteredText(g, Integer.toString(Game.bounces), Application.wid/2, topY);
+		g.setFont(rallyfont);
+		TextFunctions.drawCenteredText(g, Integer.toString(Game.getBounces()), Application.wid/2, topY);
 		// Draw current scores
-		drawCenteredText(g, Integer.toString(Game.score[0]), Application.wid/4+20, topY);
-		drawCenteredText(g, Integer.toString(Game.score[1]), Application.wid*3/4-20, topY);
+		g.setFont(scorefont);
+		TextFunctions.drawCenteredText(g, Integer.toString(Game.score[0]), Application.wid/4+20, topY);
+		TextFunctions.drawCenteredText(g, Integer.toString(Game.score[1]), Application.wid*3/4-20, topY);
 	}
 	private void drawIndicators(Graphics2D g) {
 		int w = Application.wid/4, h = Application.hei/8-2;
@@ -94,10 +99,4 @@ public class GUI {
 	}
 	
 
-	void drawCenteredText(Graphics2D g, String text, int x, int y) {
-		FontMetrics metrics = g.getFontMetrics();
-		int tlx = x - metrics.stringWidth(text) / 2;
-		int tly = y - metrics.getHeight() / 2 + metrics.getAscent();
-		g.drawString(text, tlx, tly);
-	}
 }

@@ -69,7 +69,7 @@ public class Bracket {
 				// Bounce ball
 				Game.ball.reverseDir(scale);
 				// Increment counter
-				Game.bounces++;
+				Game.incBounces();
 				// Display color
 				Game.display.setIndicatorColor(dir, bracketColor[i]);
 				// Update size
