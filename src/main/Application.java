@@ -19,6 +19,8 @@ public class Application extends JPanel implements Runnable {
 	public static Application app;
 	// Best rally done
 	public static int bestRally = 0;
+	// Fastest speed
+	public static double bestSpeed = 1;
 	// Display size
 	public static final int wid = 800, hei = 400;
 	// Thread used

@@ -93,5 +93,9 @@ public class Ball {
 		double totScale = Math.pow(expRate, factor);
 		curSpeed = Math.pow(curSpeed, totScale);
 		dir *= -1;
+		// Do check
+		if(curSpeed/initialSpeed > Application.bestSpeed) {
+			Application.bestSpeed = curSpeed/initialSpeed;
+		}
 	}
 }

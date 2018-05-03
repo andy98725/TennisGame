@@ -9,6 +9,7 @@ import java.awt.Rectangle;
 import java.awt.Stroke;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.DecimalFormat;
 
 import javax.swing.JComponent;
 
@@ -28,6 +29,9 @@ public class Menu extends JComponent implements MouseListener {
 	// Best rally data
 	final Point rallyPoint = new Point(Application.wid / 2, Application.hei * 3 / 4);
 	final String rallyText = "Best Rally: ";
+	// Fastest speed data
+	final Point speedPoint = new Point(Application.wid / 2, Application.hei * 3/4 + 20);
+	final String speedText = "Fastest Speed: ";
 	// Buttons data
 	final int btnwid = Application.wid / 4 - 10;
 	final int btnhei = Application.hei / 4;
@@ -68,6 +72,9 @@ public class Menu extends JComponent implements MouseListener {
 		g.setFont(buttonfont);
 		TextFunctions.drawCenteredText(g, rallyText + Integer.toString(Application.bestRally), rallyPoint.x,
 				rallyPoint.y);
+		// Draw fastest speed
+		String speedString = new DecimalFormat(".##").format(Application.bestSpeed);
+		TextFunctions.drawCenteredText(g, speedText + speedString + "x", speedPoint.x, speedPoint.y);
 		// Draw casual button
 		drawButton(g, casualHitbox, casualText, casualColor, casualColorBor);
 		// Draw tournament button
