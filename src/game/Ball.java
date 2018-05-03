@@ -14,6 +14,8 @@ public class Ball {
 	public static final double expRate = 1.02;
 	// Current speed (px/second)
 	private double curSpeed;
+	// Previous direction at start (-1, 1)
+	private int prevDir;
 	// Current direction (-1, 1)
 	private int dir;
 	// X position
@@ -25,11 +27,14 @@ public class Ball {
 	
 	// Create
 	public Ball() {
+		//Randomize starting dir
+		prevDir = (Math.random() > 0.5)? 1 : -1;
 		initDefaults();
 	}
 	private void initDefaults() {
 		curSpeed = initialSpeed;
-		dir = 1; 
+		dir = -prevDir;
+		prevDir = dir;
 		x = Application.wid/2;
 		passed = false;
 		passedCooldown = 0;
@@ -46,9 +51,9 @@ public class Ball {
 				// Check if time to end turn
 				if(passedCooldown <= 0) {
 					// Reset and call
-					boolean r = (rounded > Game.rightBracket.x);
+					int bumper = dir;
 					initDefaults();
-					Game.declareWinner(r);
+					Game.declareWinner(bumper);
 				}
 			}
 			else {

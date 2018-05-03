@@ -12,6 +12,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JComponent;
 
+import game.Game;
 import util.TextFunctions;
 
 public class Menu extends JComponent implements MouseListener {
@@ -28,17 +29,23 @@ public class Menu extends JComponent implements MouseListener {
 	final Point rallyPoint = new Point(Application.wid / 2, Application.hei * 3 / 4);
 	final String rallyText = "Best Rally: ";
 	// Buttons data
-	final int btnwid = Application.wid / 4;
+	final int btnwid = Application.wid / 4 - 10;
 	final int btnhei = Application.hei / 4;
+	// Casual button data
+	final Rectangle casualHitbox = new Rectangle(Application.wid / 4 - btnwid / 2, Application.hei / 2 - btnhei / 2,
+			btnwid, btnhei);
+	final Color casualColor = new Color(191, 255, 127);
+	final Color casualColorBor = new Color(127, 255, 0);
+	final String casualText = "Casual";
 	// Play button data
-	final Rectangle playHitbox = new Rectangle(Application.wid / 4 - btnwid/2, Application.hei / 2 - btnhei/2,btnwid,
-			btnhei);
-	final Color playColor = new Color(255, 191, 127);
-	final Color playColorBor = new Color(255, 127, 0);
-	final String playText = "Start Game";
+	final Rectangle tournamentHitbox = new Rectangle(Application.wid / 2 - btnwid / 2, Application.hei / 2 - btnhei / 2,
+			btnwid, btnhei);
+	final Color tournamentColor = new Color(255, 127, 191);
+	final Color tournamentColorBor = new Color(255, 0, 127);
+	final String tournamentText = "Competitive";
 	// Quit button data
-	final Rectangle quitHitbox = new Rectangle(Application.wid * 3/4 - btnwid/2, Application.hei / 2 - btnhei/2, btnwid,
-			btnhei);
+	final Rectangle quitHitbox = new Rectangle(Application.wid * 3 / 4 - btnwid / 2, Application.hei / 2 - btnhei / 2,
+			btnwid, btnhei);
 	final Color quitColor = new Color(127, 191, 255);
 	final Color quitColorBor = new Color(0, 127, 255);
 	final String quitText = "Quit";
@@ -56,18 +63,22 @@ public class Menu extends JComponent implements MouseListener {
 		g.setStroke(borderStroke);
 		// Draw title
 		g.setFont(titlefont);
-		TextFunctions.drawCenteredText(g, titleText, titlePoint.x, titlePoint.y);
+		TextFunctions.drawOutlinedText(g, titleText, titlePoint.x, titlePoint.y, Color.WHITE, Color.DARK_GRAY);
 		// Draw best rally
 		g.setFont(buttonfont);
-		TextFunctions.drawCenteredText(g, rallyText + Integer.toString(Application.bestRally), rallyPoint.x, rallyPoint.y);
-		// Draw play button
-		drawButton(g, playHitbox, playText, playColor, playColorBor);
+		TextFunctions.drawCenteredText(g, rallyText + Integer.toString(Application.bestRally), rallyPoint.x,
+				rallyPoint.y);
+		// Draw casual button
+		drawButton(g, casualHitbox, casualText, casualColor, casualColorBor);
+		// Draw tournament button
+		drawButton(g, tournamentHitbox, tournamentText, tournamentColor, tournamentColorBor);
 		// Draw quit button
 		drawButton(g, quitHitbox, quitText, quitColor, quitColorBor);
 
 		// Restore presets
 		g.setStroke(oldS);
 	}
+
 	private void drawButton(Graphics2D g, Rectangle bounds, String text, Color bg, Color bor) {
 		// Draw background
 		g.setColor(bg);
@@ -76,14 +87,17 @@ public class Menu extends JComponent implements MouseListener {
 		g.setColor(bor);
 		g.draw(bounds);
 		// Draw text
-		TextFunctions.drawOutlinedText(g, bounds.x+bounds.width/2, bounds.y+bounds.height/2, text, Color.WHITE);
-		}
+		TextFunctions.drawOutlinedText(g, text, bounds.x + bounds.width / 2, bounds.y + bounds.height / 2, Color.WHITE);
+	}
 
 	// Button clicks
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (playHitbox.contains(e.getPoint())) {
-			Application.startGame();
+		if (casualHitbox.contains(e.getPoint())) {
+			Application.startGame(Game.M_casual);
+		}
+		if (tournamentHitbox.contains(e.getPoint())) {
+			Application.startGame(Game.M_tournament);
 		}
 		if (quitHitbox.contains(e.getPoint())) {
 			System.exit(0);

@@ -5,13 +5,16 @@ import java.awt.Graphics2D;
 import main.Application;
 
 public class Game {
+	public static final int M_casual = 0, M_tournament = 1;
+	public static int mode;
 	public static Bracket leftBracket, rightBracket;
 	public static Ball ball;
 	public static GUI display;
 	private static int bounces;
 	public static int score[];
-	public Game() {
+	public Game(int c_mode) {
 		// Initiate game
+		mode = c_mode;
 		display = new GUI("A","L");
 		ball = new Ball();
 		leftBracket = new Bracket(Bracket.B_LEFT);
@@ -56,14 +59,23 @@ public class Game {
 		leftBracket.updateBrackets();
 		rightBracket.updateBrackets();
 	}
-	public static void declareWinner(boolean right) {
-		// Allocate winnings
-		if(right) {
-			score[0] += bounces;
+	
+	public static void rewardPoints(int bumper, int amount) {
+		switch(bumper) {
+		default: break;
+		case Bracket.B_LEFT:
+			score[0] += amount;
+			display.setScoreDisplay(bumper, amount);
+			break;
+		case Bracket.B_RIGHT:
+			score[1] += amount;
+			display.setScoreDisplay(bumper, amount);
+			break;
 		}
-		else {
-			score[1] += bounces;
-		}
+	}
+	public static void declareWinner(int bumper) {
+		// Allocate winnings if competitive
+		if(mode == M_tournament) rewardPoints(bumper, bounces);
 		// Reset count
 		bounces = 0;
 		// Update bumpers

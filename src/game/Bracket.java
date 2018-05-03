@@ -72,6 +72,10 @@ public class Bracket {
 				Game.incBounces();
 				// Display color
 				Game.display.setIndicatorColor(dir, bracketColor[i]);
+				// If casual mode, reward points
+				if(Game.mode == Game.M_casual) {
+					Game.rewardPoints(dir, i+1);
+				}
 				// Update size
 				Game.updateBumpers();
 				return;

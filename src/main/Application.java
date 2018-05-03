@@ -90,9 +90,9 @@ public class Application extends JPanel implements Runnable {
 		app.add(menu);
 	}
 	// Start game
-	public static void startGame() {
+	public static void startGame(int mode) {
 		menu = null;
-		game = new Game();
+		game = new Game(mode);
 		app.removeAll();
 	}
 	// Render
